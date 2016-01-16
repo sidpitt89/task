@@ -1,5 +1,6 @@
 module.exports = function(grunt) {
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
     react: {
         single_file_output: {
           options:{
@@ -32,7 +33,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    pkg: grunt.file.readJSON('package.json'),
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
@@ -41,6 +41,13 @@ module.exports = function(grunt) {
         src: 'src/gen/main.es5.js',
         dest: 'build/main.es5.min.js'
       }
+    },
+    connect: {
+      server: {
+        options: {
+          keepalive: true
+        }
+      }
     }
   });
 
@@ -48,7 +55,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-connect');
 
-  grunt.registerTask('default', ['cssmin', 'react', 'babel', 'uglify']);
+  grunt.registerTask('default', ['cssmin', 'react', 'babel', 'uglify', 'connect']);
 
 };
